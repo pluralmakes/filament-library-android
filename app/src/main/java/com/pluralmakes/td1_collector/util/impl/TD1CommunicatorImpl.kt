@@ -160,11 +160,11 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
 }
 
 class PermissionReceiver(
-    val onReceivePermissions: (Boolean) -> Unit
+    private val onReceivePermissions: ((Boolean) -> Unit)? = null
 ): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == ACTION_USB_PERMISSION) {
-            onReceivePermissions(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
+            onReceivePermissions?.invoke(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
         }
     }
 }
