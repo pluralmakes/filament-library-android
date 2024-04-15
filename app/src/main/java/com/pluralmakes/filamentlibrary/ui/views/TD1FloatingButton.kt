@@ -21,12 +21,7 @@ fun TD1FloatingButton(
         CONNECTING -> FloatingActionButton(onClick = {}) {
             CircularProgressIndicator()
         }
-        PERMISSION_DENIED -> FloatingActionButton(
-            onClick = { onClick(connectionStatus.value) }
-        ) {
-            //TODO: Implement permission denied alert
-            Text("Err")
-        }
+        PERMISSION_DENIED -> {}
         DEVICE_NOT_FOUND -> FloatingActionButton(onClick = {}) {
             Text("404")
         }

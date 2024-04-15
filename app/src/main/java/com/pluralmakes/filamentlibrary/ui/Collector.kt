@@ -26,6 +26,7 @@ import com.pluralmakes.filamentlibrary.util.impl.PermissionReceiver
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorTestImpl
 import com.pluralmakes.filamentlibrary.model.CollectorViewModel
 import com.pluralmakes.filamentlibrary.ui.dialogs.NotFoundDialog
+import com.pluralmakes.filamentlibrary.ui.dialogs.PermissionDeniedDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -90,19 +91,7 @@ fun Collector(
                     Text("Save") //TODO Replace with proper icon
                 }
 
-                if (viewModel.connectionStatus.value == DEVICE_NOT_FOUND) {
-                    NotFoundDialog(onDismissRequest = {
-                        viewModel.connectionStatus.value = NONE
-                    }, onConfirmation = {
-                        viewModel.connectionStatus.value = CONNECTING
-
-                        coroutineScope.launch {
-                            delay(1000)
-
-                            viewModel.connect()
-                        }
-                    })
-                }
+                CollectorDialogs(viewModel)
             }
         }
     ) {
@@ -121,6 +110,39 @@ fun Collector(
                 viewModel.selectedIndex.value = null
             })
         }
+}
+
+@Composable
+fun CollectorDialogs(
+    viewModel: CollectorViewModel
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val retryConnection = { delayConnection: Boolean ->
+        viewModel.connectionStatus.value = CONNECTING
+
+        coroutineScope.launch {
+            if (delayConnection) {
+                delay(1000L)
+            }
+
+            viewModel.connect()
+        }
+    }
+
+    when (viewModel.connectionStatus.value) {
+        DEVICE_NOT_FOUND -> NotFoundDialog(onDismissRequest = {
+            viewModel.connectionStatus.value = NONE
+        }, onConfirmation = {
+            retryConnection(true)
+        })
+        PERMISSION_DENIED -> PermissionDeniedDialog(
+            onDismissRequest = {
+            viewModel.connectionStatus.value = NONE
+        }, onConfirmation = {
+            retryConnection(false)
+        })
+        else -> {}
+    }
 }
 
 @Preview(
