@@ -5,17 +5,14 @@ import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.ui.views.FilamentListView
@@ -68,7 +65,7 @@ fun Collector(
             Row {
                 TD1FloatingButton(
                     connectionStatus = viewModel.connectionStatus,
-                    onClick = {
+                    onConnectClick = {
                         when (it) {
                             DISCONNECTED, NONE -> {
                                 coroutineScope.launch {
@@ -77,19 +74,13 @@ fun Collector(
                             }
 
                             CONNECTED -> viewModel.disconnect()
-                            else -> {
-                                //TODO: Implement other options
-                            }
+                            else -> {}
                         }
+                    },
+                    onExportClick = {
+                        viewModel.export(context)
                     }
                 )
-
-                FloatingActionButton(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    onClick = { viewModel.export(context) }
-                ) {
-                    Text("Save") //TODO Replace with proper icon
-                }
 
                 CollectorDialogs(viewModel)
             }

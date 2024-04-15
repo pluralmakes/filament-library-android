@@ -47,10 +47,10 @@ enum class ConnectionStatus {
             Color.Green
         } else if (this == CONNECTING) {
             Color.Yellow
-        } else if (this == NONE) {
-            Color.Gray
-        } else {
+        } else if (this == CONNECTION_FAILED || this == PERMISSION_DENIED) {
             Color.Red
+        } else {
+            Color.Gray
         }
     }
 }
