@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.ui.views.Editor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

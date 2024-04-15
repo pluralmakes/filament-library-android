@@ -1,4 +1,4 @@
-package com.pluralmakes.filamentlibrary.ui
+package com.pluralmakes.filamentlibrary.ui.views
 
 import androidx.annotation.ColorInt
 import androidx.compose.foundation.background

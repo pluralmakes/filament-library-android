@@ -18,11 +18,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.ui.views.FilamentListView
+import com.pluralmakes.filamentlibrary.ui.views.TD1FloatingButton
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
 import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
 import com.pluralmakes.filamentlibrary.util.impl.PermissionReceiver
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorTestImpl
-import com.pluralmakes.filamentlibrary.viewModel.CollectorViewModel
+import com.pluralmakes.filamentlibrary.model.CollectorViewModel
 import kotlinx.coroutines.launch
 
 @Composable

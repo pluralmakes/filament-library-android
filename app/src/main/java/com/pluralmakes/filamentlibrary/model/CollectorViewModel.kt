@@ -1,4 +1,4 @@
-package com.pluralmakes.filamentlibrary.viewModel
+package com.pluralmakes.filamentlibrary.model
 
 import android.content.Context
 import androidx.compose.runtime.MutableState

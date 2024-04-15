@@ -1,4 +1,4 @@
-package com.pluralmakes.filamentlibrary.ui
+package com.pluralmakes.filamentlibrary.ui.views
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas

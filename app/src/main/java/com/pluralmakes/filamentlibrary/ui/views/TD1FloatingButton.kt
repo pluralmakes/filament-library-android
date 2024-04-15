@@ -1,4 +1,4 @@
-package com.pluralmakes.filamentlibrary.ui
+package com.pluralmakes.filamentlibrary.ui.views
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
