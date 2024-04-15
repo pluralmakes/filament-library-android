@@ -11,10 +11,16 @@ import com.pluralmakes.filamentlibrary.ui.Collector
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorImpl
 import com.pluralmakes.filamentlibrary.model.CollectorViewModel
+import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val filaments = CollectorViewModel
+            .load(this)
+            .toMutableList()
+
         setContent {
             FilamentLibraryTheme {
                 Surface(
@@ -23,7 +29,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Collector(
                         viewModel = CollectorViewModel(
-                            communicator = TD1CommunicatorImpl(this)
+                            communicator = TD1CommunicatorImpl(this),
+                            filaments = filaments
                         )
                     )
                 }
