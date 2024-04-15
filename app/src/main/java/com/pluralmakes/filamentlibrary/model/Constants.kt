@@ -1,7 +1,7 @@
 package com.pluralmakes.filamentlibrary.model
 
 object Constants {
-
+    const val FILE_NAME = "filaments.json"
 }
 
 object TD1Constants {

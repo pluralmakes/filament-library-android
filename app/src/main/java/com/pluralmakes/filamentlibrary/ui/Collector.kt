@@ -9,6 +9,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -91,6 +93,12 @@ fun Collector(
             modifier = Modifier.padding(it)
         ) { index ->
             viewModel.selectedIndex.value = viewModel.filaments.indexOf(index)
+        }
+
+        key(viewModel.filaments) {
+            coroutineScope.launch {
+                viewModel.save(context)
+            }
         }
     }
 
