@@ -11,6 +11,7 @@ import androidx.compose.runtime.MutableState
 import com.felhr.usbserial.UsbSerialDevice
 import com.felhr.usbserial.UsbSerialInterface
 import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.model.TD1Constants
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
 import com.pluralmakes.filamentlibrary.util.TD1Communicator
@@ -22,9 +23,6 @@ const val ACTION_USB_PERMISSION = "com.pluralmakes.filamentlibrary.USB_PERMISSIO
 
 class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
     private var serialPort: UsbSerialDevice? = null
-    private val targetVid = 0xE4B2  // Replace with your actual Vendor ID in hexadecimal format
-    private val targetPid = 0x0045  // Replace with your actual Product ID in hexadecimal format
-    private val baudRate = 115200
 
     override fun connect(isConnected: MutableState<ConnectionStatus>) {
         val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
@@ -37,7 +35,7 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
 
                 if (serialPort != null) {
                     if (serialPort!!.syncOpen()) {
-                        serialPort!!.setBaudRate(baudRate)
+                        serialPort!!.setBaudRate(TD1Constants.baudRate)
                         serialPort!!.setDataBits(UsbSerialInterface.DATA_BITS_8)
                         serialPort!!.setStopBits(UsbSerialInterface.STOP_BITS_1)
                         serialPort!!.setParity(UsbSerialInterface.PARITY_NONE)
@@ -55,6 +53,8 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
             } catch (e: IOException) {
                 isConnected.value = CONNECTION_FAILED
             }
+        } else {
+            isConnected.value = DEVICE_NOT_FOUND
         }
     }
 
@@ -149,7 +149,7 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
 
     private fun getUsbDevice(usbManager: UsbManager): UsbDevice? {
         return usbManager.deviceList.values.firstOrNull { device ->
-            device.vendorId == targetVid && device.productId == targetPid
+            device.vendorId == TD1Constants.targetVid && device.productId == TD1Constants.targetPid
         }
     }
 

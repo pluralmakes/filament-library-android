@@ -5,8 +5,12 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
+import com.pluralmakes.filamentlibrary.model.TD1Constants
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun TD1FloatingButton(
@@ -14,7 +18,9 @@ fun TD1FloatingButton(
     onClick: (ConnectionStatus) -> Unit
 ) {
     when (connectionStatus.value) {
-        CONNECTING -> CircularProgressIndicator()
+        CONNECTING -> FloatingActionButton(onClick = {}) {
+            CircularProgressIndicator()
+        }
         PERMISSION_DENIED -> FloatingActionButton(
             onClick = { onClick(connectionStatus.value) }
         ) {
@@ -22,7 +28,6 @@ fun TD1FloatingButton(
             Text("Err")
         }
         DEVICE_NOT_FOUND -> FloatingActionButton(onClick = {}) {
-            //TODO: Implement proper error message
             Text("404")
         }
         else -> FloatingActionButton(

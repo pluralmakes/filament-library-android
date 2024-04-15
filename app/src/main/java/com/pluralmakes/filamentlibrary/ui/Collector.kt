@@ -25,6 +25,8 @@ import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
 import com.pluralmakes.filamentlibrary.util.impl.PermissionReceiver
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorTestImpl
 import com.pluralmakes.filamentlibrary.model.CollectorViewModel
+import com.pluralmakes.filamentlibrary.ui.dialogs.NotFoundDialog
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -64,27 +66,42 @@ fun Collector(
         floatingActionButton = {
             Row {
                 TD1FloatingButton(
-                    connectionStatus = viewModel.connectionStatus
-                ) {
-                    when (it) {
-                        DISCONNECTED, NONE -> {
-                            coroutineScope.launch {
-                                viewModel.connect()
+                    connectionStatus = viewModel.connectionStatus,
+                    onClick = {
+                        when (it) {
+                            DISCONNECTED, NONE -> {
+                                coroutineScope.launch {
+                                    viewModel.connect()
+                                }
+                            }
+
+                            CONNECTED -> viewModel.disconnect()
+                            else -> {
+                                //TODO: Implement other options
                             }
                         }
-
-                        CONNECTED -> viewModel.disconnect()
-                        else -> {
-                            //TODO: Implement other options
-                        }
                     }
-                }
+                )
 
                 FloatingActionButton(
                     modifier = Modifier.padding(horizontal = 10.dp),
                     onClick = { viewModel.export(context) }
                 ) {
                     Text("Save") //TODO Replace with proper icon
+                }
+
+                if (viewModel.connectionStatus.value == DEVICE_NOT_FOUND) {
+                    NotFoundDialog(onDismissRequest = {
+                        viewModel.connectionStatus.value = NONE
+                    }, onConfirmation = {
+                        viewModel.connectionStatus.value = CONNECTING
+
+                        coroutineScope.launch {
+                            delay(1000)
+
+                            viewModel.connect()
+                        }
+                    })
                 }
             }
         }
