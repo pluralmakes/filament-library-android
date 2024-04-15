@@ -2,6 +2,7 @@ package com.pluralmakes.filamentlibrary.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
+import com.google.gson.annotations.SerializedName
 import kotlin.random.Random
 
 val filamentTypes = arrayListOf(
@@ -34,11 +35,23 @@ val filamentTypes = arrayListOf(
 )
 
 class Filament(
+    @SerializedName("Brand")
     var brand: String,
+
+    @SerializedName("Type")
     var type: String,
+
+    @SerializedName("Name")
     var name: String,
+
+    @SerializedName("Color")
     var color: String,
-    var td: Float
+
+    @SerializedName("Transmissivity")
+    var td: Float,
+
+    @SerializedName("Owned")
+    val owned: Boolean = true,
 ) {
 
     fun getComposeColor(): Color {
