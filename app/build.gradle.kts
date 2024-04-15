@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.pluralmakes.td1_collector"
+    namespace = "com.pluralmakes.filamentlibrary"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.pluralmakes.td1_collector"
+        applicationId = "com.pluralmakes.filamentlibrary"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -77,4 +77,5 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:+")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.godaddy.android.colorpicker:compose-color-picker-android:0.7.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
