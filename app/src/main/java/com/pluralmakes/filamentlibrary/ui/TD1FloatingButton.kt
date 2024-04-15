@@ -1,12 +1,12 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import com.pluralmakes.td1_collector.util.ConnectionStatus
-import com.pluralmakes.td1_collector.util.ConnectionStatus.*
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
 
 @Composable
 fun TD1FloatingButton(

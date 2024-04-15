@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector
+package com.pluralmakes.filamentlibrary
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.pluralmakes.td1_collector", appContext.packageName)
+        assertEquals("com.pluralmakes.filamentlibrary", appContext.packageName)
     }
 }

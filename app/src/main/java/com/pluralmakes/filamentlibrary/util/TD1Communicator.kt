@@ -1,8 +1,8 @@
-package com.pluralmakes.td1_collector.util
+package com.pluralmakes.filamentlibrary.util
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
-import com.pluralmakes.td1_collector.model.Filament
+import com.pluralmakes.filamentlibrary.model.Filament
 import java.io.IOException
 
 interface TD1Communicator {

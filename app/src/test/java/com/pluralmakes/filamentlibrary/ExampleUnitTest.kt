@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector
+package com.pluralmakes.filamentlibrary
 
 import org.junit.Test
 

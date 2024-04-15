@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.pluralmakes.td1_collector"
+    namespace = "com.pluralmakes.filamentlibrary"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.pluralmakes.td1_collector"
+        applicationId = "com.pluralmakes.filamentlibrary"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

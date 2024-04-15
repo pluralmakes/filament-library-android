@@ -1,10 +1,8 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Build
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FloatingActionButton
@@ -18,14 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pluralmakes.td1_collector.model.generateRandomFilaments
-import com.pluralmakes.td1_collector.ui.theme.TD1CollectorTheme
-import com.pluralmakes.td1_collector.util.ConnectionStatus
-import com.pluralmakes.td1_collector.util.ConnectionStatus.*
-import com.pluralmakes.td1_collector.util.impl.ACTION_USB_PERMISSION
-import com.pluralmakes.td1_collector.util.impl.PermissionReceiver
-import com.pluralmakes.td1_collector.util.impl.TD1CommunicatorTestImpl
-import com.pluralmakes.td1_collector.viewModel.CollectorViewModel
+import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
+import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
+import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
+import com.pluralmakes.filamentlibrary.util.impl.PermissionReceiver
+import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorTestImpl
+import com.pluralmakes.filamentlibrary.viewModel.CollectorViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -117,7 +114,7 @@ fun Collector(
 )
 @Composable
 fun CollectorPreview() {
-    TD1CollectorTheme {
+    FilamentLibraryTheme {
         Surface {
             val communicator = TD1CommunicatorTestImpl()
             val viewModel = CollectorViewModel(

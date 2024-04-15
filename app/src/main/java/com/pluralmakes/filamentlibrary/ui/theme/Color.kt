@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui.theme
+package com.pluralmakes.filamentlibrary.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

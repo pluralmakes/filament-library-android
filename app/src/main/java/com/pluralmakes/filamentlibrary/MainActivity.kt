@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector
+package com.pluralmakes.filamentlibrary
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,17 +7,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.pluralmakes.td1_collector.model.generateRandomFilaments
-import com.pluralmakes.td1_collector.ui.Collector
-import com.pluralmakes.td1_collector.ui.theme.TD1CollectorTheme
-import com.pluralmakes.td1_collector.util.impl.TD1CommunicatorImpl
-import com.pluralmakes.td1_collector.viewModel.CollectorViewModel
+import com.pluralmakes.filamentlibrary.ui.Collector
+import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorImpl
+import com.pluralmakes.filamentlibrary.viewModel.CollectorViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TD1CollectorTheme {
+            FilamentLibraryTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import android.content.res.Configuration
 import androidx.compose.material3.BottomSheetDefaults
@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.pluralmakes.td1_collector.model.Filament
-import com.pluralmakes.td1_collector.ui.theme.TD1CollectorTheme
+import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +54,7 @@ fun EditorBottomSheet(
 )
 @Composable
 fun EditorBottomSheetPreview() {
-    TD1CollectorTheme {
+    FilamentLibraryTheme {
         EditorBottomSheet(
             filament = Filament("Overture", "PLA", "Generic", "#00fff7", 1.75f),
             onDismiss = {}

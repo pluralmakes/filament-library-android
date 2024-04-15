@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.godaddy.android.colorpicker.ClassicColorPicker
 import com.godaddy.android.colorpicker.HsvColor
-import com.pluralmakes.td1_collector.model.filamentTypes
-import com.pluralmakes.td1_collector.ui.theme.TD1CollectorTheme
+import com.pluralmakes.filamentlibrary.model.filamentTypes
+import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 
 @Composable
 fun Editor(
@@ -110,7 +110,7 @@ fun Editor(
 )
 @Composable
 fun EditorPreview() {
-    TD1CollectorTheme {
+    FilamentLibraryTheme {
         Editor(
             brand = mutableStateOf("Overture"),
             name = mutableStateOf("Generic"),

@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.util.impl
+package com.pluralmakes.filamentlibrary.util.impl
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -10,15 +10,15 @@ import android.os.Build
 import androidx.compose.runtime.MutableState
 import com.felhr.usbserial.UsbSerialDevice
 import com.felhr.usbserial.UsbSerialInterface
-import com.pluralmakes.td1_collector.model.Filament
-import com.pluralmakes.td1_collector.util.ConnectionStatus
-import com.pluralmakes.td1_collector.util.ConnectionStatus.*
-import com.pluralmakes.td1_collector.util.TD1Communicator
+import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
+import com.pluralmakes.filamentlibrary.util.TD1Communicator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-const val ACTION_USB_PERMISSION = "com.pluralmakes.td1_collector.USB_PERMISSION"
+const val ACTION_USB_PERMISSION = "com.pluralmakes.filamentlibrary.USB_PERMISSION"
 
 class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
     private var serialPort: UsbSerialDevice? = null

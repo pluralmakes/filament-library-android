@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import androidx.annotation.ColorInt
 import androidx.compose.foundation.background

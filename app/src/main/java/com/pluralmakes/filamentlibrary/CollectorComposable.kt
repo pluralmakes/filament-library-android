@@ -1,32 +1,4 @@
-package com.pluralmakes.td1_collector
-
-import android.content.IntentFilter
-import android.os.Build
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
-import com.pluralmakes.td1_collector.model.Filament
-import com.pluralmakes.td1_collector.util.impl.ACTION_USB_PERMISSION
-import com.pluralmakes.td1_collector.util.impl.PermissionReceiver
-import com.pluralmakes.td1_collector.viewModel.CollectorViewModel
+package com.pluralmakes.filamentlibrary
 
 // Original test page
 //TODO: Move most functionality to Collection.kt

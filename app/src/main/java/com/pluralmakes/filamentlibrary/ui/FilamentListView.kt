@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui
+package com.pluralmakes.filamentlibrary.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,10 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pluralmakes.td1_collector.model.Filament
-import com.pluralmakes.td1_collector.model.generateRandomFilaments
-import com.pluralmakes.td1_collector.ui.theme.TD1CollectorTheme
-import com.pluralmakes.td1_collector.util.extensions.toTDString
+import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
+import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.util.extensions.toTDString
 
 @Composable
 fun FilamentListView(
@@ -143,7 +142,7 @@ fun FilamentListView(
 )
 @Composable
 fun FilamentListViewPreview() {
-    TD1CollectorTheme {
+    FilamentLibraryTheme {
         Surface {
             FilamentListView(
                 generateRandomFilaments().toMutableStateList(),

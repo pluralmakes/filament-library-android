@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.ui.theme
+package com.pluralmakes.filamentlibrary.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -38,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun TD1CollectorTheme(
+fun FilamentLibraryTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

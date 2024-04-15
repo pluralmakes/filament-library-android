@@ -1,9 +1,9 @@
-package com.pluralmakes.td1_collector.util.impl
+package com.pluralmakes.filamentlibrary.util.impl
 
 import androidx.compose.runtime.MutableState
-import com.pluralmakes.td1_collector.model.Filament
-import com.pluralmakes.td1_collector.util.ConnectionStatus
-import com.pluralmakes.td1_collector.util.TD1Communicator
+import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus
+import com.pluralmakes.filamentlibrary.util.TD1Communicator
 
 class TD1CommunicatorTestImpl: TD1Communicator {
     override fun connect(isConnected: MutableState<ConnectionStatus>) {

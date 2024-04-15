@@ -1,4 +1,4 @@
-package com.pluralmakes.td1_collector.model
+package com.pluralmakes.filamentlibrary.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
