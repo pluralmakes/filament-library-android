@@ -34,7 +34,7 @@ val filamentTypes = arrayListOf(
     "POM+"
 )
 
-class Filament(
+data class Filament(
     @SerializedName("Brand")
     var brand: String,
 
@@ -53,7 +53,6 @@ class Filament(
     @SerializedName("Owned")
     val owned: Boolean = true,
 ) {
-
     fun getComposeColor(): Color {
         return Color(color.toColorInt())
     }

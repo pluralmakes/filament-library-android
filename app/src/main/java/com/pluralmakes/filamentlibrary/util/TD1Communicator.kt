@@ -15,7 +15,10 @@ interface TD1Communicator {
      * Start attempting to read filament data from the TD-1
      */
     @Throws(IOException::class)
-    suspend fun startReading(onFilamentReceive: (Filament) -> Unit)
+    suspend fun startReading(
+        onReadingEnd: () -> Unit,
+        onFilamentReceived: (Filament) -> Unit
+    )
 
     /**
      * Checks if your app has permission to access the USB device

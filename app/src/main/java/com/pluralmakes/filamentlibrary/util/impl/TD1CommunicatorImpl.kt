@@ -1,12 +1,14 @@
 package com.pluralmakes.filamentlibrary.util.impl
 
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.felhr.usbserial.UsbSerialDevice
 import com.felhr.usbserial.UsbSerialInterface
@@ -59,16 +61,22 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
     }
 
     @Throws(IOException::class)
-    override suspend fun startReading(onFilamentReceive: (Filament) -> Unit) = withContext(Dispatchers.IO) {
+    override suspend fun startReading(
+        onReadingEnd: () -> Unit,
+        onFilamentReceived: (Filament) -> Unit
+    ) : Unit = withContext(Dispatchers.IO) {
         val read = {
-            val buffer = ByteArray(128)
+            val buffer = ByteArray(50)
             val numBytesRead = serialPort?.syncRead(buffer, -1)
 
-            if (numBytesRead != null && numBytesRead > 0) {
+            val output = if (numBytesRead != null && numBytesRead > 0) {
                 String(buffer, 0, numBytesRead).trim()
             } else {
                 null
             }
+
+            Log.d("TD-1 Output", "startReading: $output")
+            output
         }
         val write = { command: String ->
             serialPort?.syncWrite("$command\n".toByteArray(), -1)
@@ -77,7 +85,6 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
         write("connect")
 
         var response = read()
-
         if (response == "ready") {
             write("P")
 
@@ -91,20 +98,28 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
                         .map { it.replace("(", "").replace(")", "") }
 
                     if (filteredDataList.isNotEmpty()) {
-                        onFilamentReceive(
-                            Filament(
-                                brand = dataList[1].takeIf { it.isNotEmpty() } ?: "Unknown",
-                                type = dataList[2].takeIf { it.isNotEmpty() } ?: "Unknown",
-                                name = dataList[3],
-                                td = dataList[4].toFloat(),
-                                color = "#${dataList[5]}",
+                        Handler(Looper.getMainLooper()).post {
+                            onFilamentReceived(
+                                Filament(
+                                    brand = dataList[1].takeIf { it.isNotEmpty() } ?: "Unknown",
+                                    type = dataList[2].takeIf { it.isNotEmpty() } ?: "Unknown",
+                                    name = dataList[3],
+                                    td = dataList[4].toFloat(),
+                                    color = "#${dataList[5]}",
+                                )
                             )
-                        )
+                        }
+
+                        Log.d("TD-1 Output", "Received new filament")
                     }
                 }
             }
         } else {
             print("Failed because $response")
+        }
+
+        Handler(Looper.getMainLooper()).post {
+            onReadingEnd()
         }
     }
 
@@ -156,15 +171,5 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
     // Function to filter unwanted characters from data
     private fun filterData(dataList: List<String>): List<String> {
         return dataList.map { it.replace("(", "").replace(")", "") }
-    }
-}
-
-class PermissionReceiver(
-    private val onReceivePermissions: ((Boolean) -> Unit)? = null
-): BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (intent?.action == ACTION_USB_PERMISSION) {
-            onReceivePermissions?.invoke(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
-        }
     }
 }

@@ -3,29 +3,31 @@ package com.pluralmakes.filamentlibrary.model
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
 import com.google.gson.JsonSyntaxException
-import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
 import com.pluralmakes.filamentlibrary.util.TD1Communicator
-import kotlinx.coroutines.delay
 import java.io.File
 import java.io.IOException
 import java.io.OutputStreamWriter
 
 class CollectorViewModel(
     val connectionStatus: MutableState<ConnectionStatus> = mutableStateOf(NONE),
+    var selectedIndexes: MutableList<Int> = mutableStateListOf(),
     var selectedIndex: MutableState<Int?> = mutableStateOf(null),
-    var filaments: MutableList<Filament> = mutableListOf(),
+    var filaments: MutableList<Filament> = mutableStateListOf(),
     val communicator: TD1Communicator,
 ): ViewModel() {
-    suspend fun connect() {
+    var isReading : Boolean = false
+        private set
+
+    fun connect() {
         connectionStatus.value = CONNECTING
         if (!communicator.hasPermission()) {
             communicator.requestPermission(connectionStatus)
@@ -33,14 +35,6 @@ class CollectorViewModel(
         }
 
         communicator.connect(connectionStatus)
-
-        if (connectionStatus.value == CONNECTED) {
-            startReading {
-                filaments.add(it)
-
-                selectedIndex.value = filaments.size - 1
-            }
-        }
     }
 
     fun save(
@@ -140,11 +134,22 @@ class CollectorViewModel(
         context.startActivity(Intent.createChooser(shareIntent, "Export filament"))
     }
 
-    suspend fun startReading(onFilamentReceive: (Filament) -> Unit) {
-        communicator.startReading(onFilamentReceive)
+    suspend fun startReading() {
+        isReading = true
+
+        communicator.startReading(
+            onReadingEnd = {
+                isReading = false
+            },
+            onFilamentReceived = { filament ->
+                filaments.add(filament)
+                selectedIndex.value = filaments.indexOf(filament)
+            }
+        )
     }
 
     fun disconnect() {
+        isReading = false
         communicator.disconnect()
         connectionStatus.value = DISCONNECTED
     }

@@ -10,7 +10,10 @@ class TD1CommunicatorTestImpl: TD1Communicator {
         TODO("Not yet implemented")
     }
 
-    override suspend fun startReading(onFilamentReceive: (Filament) -> Unit) {
+    override suspend fun startReading(
+        onReadingEnd: () -> Unit,
+        onFilamentReceived: (Filament) -> Unit
+    ) {
         TODO("Not yet implemented")
     }
 

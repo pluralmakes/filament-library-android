@@ -2,8 +2,9 @@ package com.pluralmakes.filamentlibrary.ui.views
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -31,11 +32,13 @@ import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.extensions.toTDString
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FilamentListView(
     filaments: MutableList<Filament>,
+    selectedIndexes: MutableList<Int>,
     modifier: Modifier = Modifier,
-    onFilamentClick: (Filament) -> Unit,
+    onBulkSelect: (multiSelect: Boolean, Int) -> Unit,
 ) {
     Column(modifier) {
         val groupedFilaments = filaments
@@ -78,13 +81,22 @@ fun FilamentListView(
                         item {
                             LazyRow(modifier = Modifier.fillMaxWidth()) {
                                 items(it) { filament ->
+                                    val index = filaments.indexOf(filament)
+                                    val isSelected = selectedIndexes.contains(index)
+
                                     Column(
                                         Modifier
-                                            .weight(1f)
+                                            .weight(0.3f)
                                             .fillParentMaxWidth(1f / 3f)
-                                            .clickable {
-                                                onFilamentClick(filament)
-                                            }
+                                            .combinedClickable(
+                                                onClick = {
+                                                    onBulkSelect(isSelected, index)
+                                                },
+                                                onLongClick = {
+                                                    onBulkSelect(true, index)
+                                                }
+                                            )
+                                            .background(if (isSelected) Color.Gray.copy(alpha = 0.2f) else Color.Transparent)
                                     ) {
                                         Box(
                                             Modifier
@@ -146,9 +158,9 @@ fun FilamentListViewPreview() {
         Surface {
             FilamentListView(
                 generateRandomFilaments().toMutableStateList(),
-            ) {
-                // Do nothing
-            }
+                mutableListOf(),
+                onBulkSelect = { _, _ -> },
+            )
         }
     }
 }
