@@ -9,13 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
-import com.pluralmakes.filamentlibrary.ui.views.editors.FilamentEditor
+import com.pluralmakes.filamentlibrary.ui.views.editors.MergeFilamentEditor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditorBottomSheet(
-    filament: Filament,
-    onFilamentChange: (Filament) -> Unit,
+fun MergeFilamentBottomSheet(
+    filaments: List<Filament>,
+    onMergeFilament: (Filament) -> Unit,
     onDismiss: () -> Unit,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -27,7 +27,11 @@ fun EditorBottomSheet(
             onDismiss()
         },
     ) {
-        FilamentEditor(filament, onFilamentChange)
+        MergeFilamentEditor(
+            filaments = filaments,
+            onMergeFilament = onMergeFilament,
+            onDismiss = onDismiss,
+        )
     }
 }
 
@@ -38,12 +42,12 @@ fun EditorBottomSheet(
     apiLevel = 33
 )
 @Composable
-fun EditorBottomSheetPreview() {
+fun MergeFilamentBottomSheetPreview() {
     FilamentLibraryTheme {
-        EditorBottomSheet(
-            filament = Filament("Overture", "PLA", "Generic", "#00fff7", 1.75f),
+        MergeFilamentBottomSheet(
+            filaments = listOf(Filament("Overture", "PLA", "Generic", "#00fff7", 1.75f)),
+            onMergeFilament = {},
             onDismiss = {},
-            onFilamentChange = {}
         )
     }
 }

@@ -37,7 +37,7 @@ class CollectorViewModel(
         communicator.connect(connectionStatus)
     }
 
-    fun save(
+    private fun save(
         context: Context,
         // TODO: Implement error handlers
     ) {
@@ -68,6 +68,43 @@ class CollectorViewModel(
         } finally {
             outputWriter.close()
         }
+    }
+
+    fun export(context: Context) {
+        // Save the file really quickly before exporting
+        save(context)
+
+        val file = getFilamentFile(context)
+        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
+
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_STREAM, uri)
+            type = "application/json"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        context.startActivity(Intent.createChooser(shareIntent, "Export filament"))
+    }
+
+    suspend fun startReading() {
+        isReading = true
+
+        communicator.startReading(
+            onReadingEnd = {
+                isReading = false
+            },
+            onFilamentReceived = { filament ->
+                filaments.add(filament)
+                selectedIndex.value = filaments.indexOf(filament)
+            }
+        )
+    }
+
+    fun disconnect() {
+        isReading = false
+        communicator.disconnect()
+        connectionStatus.value = DISCONNECTED
     }
 
     companion object {
@@ -115,42 +152,5 @@ class CollectorViewModel(
         private fun getFilamentFile(context: Context): File {
             return File(context.filesDir, Constants.FILE_NAME)
         }
-    }
-
-    fun export(context: Context) {
-        // Save the file really quickly before exporting
-        save(context)
-
-        val file = getFilamentFile(context)
-        val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
-
-        val shareIntent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, uri)
-            type = "application/json"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-
-        context.startActivity(Intent.createChooser(shareIntent, "Export filament"))
-    }
-
-    suspend fun startReading() {
-        isReading = true
-
-        communicator.startReading(
-            onReadingEnd = {
-                isReading = false
-            },
-            onFilamentReceived = { filament ->
-                filaments.add(filament)
-                selectedIndex.value = filaments.indexOf(filament)
-            }
-        )
-    }
-
-    fun disconnect() {
-        isReading = false
-        communicator.disconnect()
-        connectionStatus.value = DISCONNECTED
     }
 }

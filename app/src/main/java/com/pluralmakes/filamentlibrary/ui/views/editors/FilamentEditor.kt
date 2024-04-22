@@ -1,4 +1,4 @@
-package com.pluralmakes.filamentlibrary.ui.views
+package com.pluralmakes.filamentlibrary.ui.views.editors
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.ui.views.FilamentColorPicker
+import com.pluralmakes.filamentlibrary.ui.views.PolymerEditorRow
+import com.pluralmakes.filamentlibrary.ui.views.TDEditorRow
+import com.pluralmakes.filamentlibrary.ui.views.TextEditorRow
 
 @Composable
 fun FilamentEditor(

@@ -13,7 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +30,7 @@ import com.pluralmakes.filamentlibrary.model.CollectorViewModel
 import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.ui.Collector
+import com.pluralmakes.filamentlibrary.ui.MergeFilamentBottomSheet
 import com.pluralmakes.filamentlibrary.ui.dialogs.CollectorDialogs
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
@@ -39,6 +44,10 @@ fun CollectorScaffold(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    var showMergeDialog by remember { mutableStateOf(false) }
+    var showBulkEditor by remember { mutableStateOf(false) }
+    var showBulkDelete by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -69,8 +78,7 @@ fun CollectorScaffold(
                     Spacer(Modifier.padding(horizontal = 2.5.dp))
 
                     Button(onClick = {
-                        // TODO: Implement Merge
-                        // Use average TD value and hex color between all
+                        showMergeDialog = true
                     }) {
                         Image(
                             painter = painterResource(id = R.drawable.merge),
@@ -131,6 +139,23 @@ fun CollectorScaffold(
             }
         }
     )
+
+    if (showMergeDialog) {
+        MergeFilamentBottomSheet(
+            filaments = collectorViewModel.selectedIndexes.map { collectorViewModel.filaments[it] }.toMutableList(),
+            onMergeFilament = { mergedFilament ->
+                collectorViewModel
+                    .filaments.removeAll { collectorViewModel.selectedIndexes.contains(collectorViewModel.filaments.indexOf(it)) }
+
+                collectorViewModel.filaments.add(mergedFilament)
+
+                collectorViewModel.selectedIndexes.clear()
+            },
+            onDismiss = {
+                showMergeDialog = false
+            }
+        )
+    }
 }
 
 @Composable
