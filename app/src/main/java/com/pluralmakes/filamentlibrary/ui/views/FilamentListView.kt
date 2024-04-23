@@ -1,6 +1,5 @@
 package com.pluralmakes.filamentlibrary.ui.views
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -24,10 +23,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.model.annotations.Previews
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.extensions.toTDString
@@ -144,14 +143,7 @@ fun FilamentListView(
     }
 }
 
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 33,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    apiLevel = 33,
-)
+@Previews
 @Composable
 fun FilamentListViewPreview() {
     FilamentLibraryTheme {

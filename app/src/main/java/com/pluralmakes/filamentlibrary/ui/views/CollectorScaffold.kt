@@ -1,6 +1,5 @@
 package com.pluralmakes.filamentlibrary.ui.views
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,18 +21,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pluralmakes.filamentlibrary.R
-import com.pluralmakes.filamentlibrary.model.CollectorViewModel
 import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.model.annotations.Previews
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
+import com.pluralmakes.filamentlibrary.model.viewModel.CollectorViewModel
 import com.pluralmakes.filamentlibrary.ui.Collector
-import com.pluralmakes.filamentlibrary.ui.MergeFilamentBottomSheet
 import com.pluralmakes.filamentlibrary.ui.dialogs.CollectorDialogs
+import com.pluralmakes.filamentlibrary.ui.dialogs.GenericDialog
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.ui.views.bottomSheets.BulkEditorBottomSheet
+import com.pluralmakes.filamentlibrary.ui.views.bottomSheets.MergeBottomSheet
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
+import com.pluralmakes.filamentlibrary.util.StorageUtil
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorTestImpl
 import kotlinx.coroutines.launch
 import kotlin.random.Random
@@ -67,7 +70,7 @@ fun CollectorScaffold(
                     )
 
                     Button(onClick = {
-                        // TODO: Implement Bulk Edit
+                        showBulkEditor = true
                     }) {
                         Image(
                             painter = painterResource(id = R.drawable.edit),
@@ -89,7 +92,7 @@ fun CollectorScaffold(
                     Spacer(Modifier.padding(horizontal = 2.5.dp))
 
                     Button(onClick = {
-                        // TODO: Implement Bulk Delete
+                        showBulkDelete = true
                     }) {
                         Image(
                             painter = painterResource(id = R.drawable.delete),
@@ -130,7 +133,9 @@ fun CollectorScaffold(
                     },
                     onExportClick = {
                         coroutineScope.launch {
-                            collectorViewModel.export(context)
+                            collectorViewModel.share(context, onError = { _, _ ->
+                                // TODO: Handle error
+                            })
                         }
                     }
                 )
@@ -141,18 +146,80 @@ fun CollectorScaffold(
     )
 
     if (showMergeDialog) {
-        MergeFilamentBottomSheet(
-            filaments = collectorViewModel.selectedIndexes.map { collectorViewModel.filaments[it] }.toMutableList(),
+        MergeBottomSheet(
+            selectedFilament = collectorViewModel.selectedIndexes.map { collectorViewModel.filaments[it] }.toMutableList(),
             onMergeFilament = { mergedFilament ->
                 collectorViewModel
-                    .filaments.removeAll { collectorViewModel.selectedIndexes.contains(collectorViewModel.filaments.indexOf(it)) }
+                    .filaments
+                    .removeAll { collectorViewModel.selectedIndexes.contains(collectorViewModel.filaments.indexOf(it)) }
 
                 collectorViewModel.filaments.add(mergedFilament)
-
                 collectorViewModel.selectedIndexes.clear()
+                StorageUtil.save(
+                    collectorViewModel.filaments,
+                    context,
+                    onError = { _, _ -> }
+                )
             },
             onDismiss = {
                 showMergeDialog = false
+            }
+        )
+    }
+
+    if (showBulkEditor) {
+        BulkEditorBottomSheet(
+            filamentsToEdit = collectorViewModel.selectedIndexes.map { collectorViewModel.filaments[it] }.toMutableList(),
+            filamentsToUseForSuggestions = collectorViewModel.filaments,
+            onEditFilament = {
+                collectorViewModel.selectedIndexes.forEach { i ->
+                    val filament = collectorViewModel.filaments[i]
+                    collectorViewModel.filaments[i] = filament.copy(
+                        brand = it.brand ?: filament.brand,
+                        name = it.name ?: filament.name,
+                        color = it.color ?: filament.color,
+                        td = it.td ?: filament.td,
+                        type = it.polymer ?: filament.type
+                    )
+                }
+
+                collectorViewModel.selectedIndexes.clear()
+                StorageUtil.save(
+                    collectorViewModel.filaments,
+                    context,
+                    onError = { _, _ -> }
+                )
+            },
+            onDismiss = {
+                showBulkEditor = false
+            }
+        )
+    }
+
+    if (showBulkDelete) {
+        GenericDialog(
+            title = "Delete Filament",
+            body = pluralStringResource(
+                id = R.plurals.bulk_delete_confirm,
+                count = collectorViewModel.selectedIndexes.size,
+                collectorViewModel.selectedIndexes.size
+            ),
+            onConfirmation = {
+                collectorViewModel.selectedIndexes.forEach { index ->
+                    collectorViewModel.filaments.removeAt(index)
+                }
+
+                collectorViewModel.selectedIndexes.clear()
+                StorageUtil.save(
+                    collectorViewModel.filaments,
+                    context,
+                    onError = { _, _ -> }
+                )
+
+                showBulkDelete = false
+            },
+            onDismissRequest = {
+                showBulkDelete = false
             }
         )
     }
@@ -174,14 +241,7 @@ fun CollectorScaffoldContent(
     }
 }
 
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 33,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    apiLevel = 33,
-)
+@Previews
 @Composable
 fun CollectorScaffoldPreviewNoneSelected() {
     FilamentLibraryTheme {
@@ -197,14 +257,7 @@ fun CollectorScaffoldPreviewNoneSelected() {
     }
 }
 
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    apiLevel = 33,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    apiLevel = 33,
-)
+@Previews
 @Composable
 fun CollectorScaffoldPreviewWithSelections() {
     FilamentLibraryTheme {

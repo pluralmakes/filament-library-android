@@ -3,23 +3,44 @@ package com.pluralmakes.filamentlibrary.model.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.usb.UsbManager
-import com.pluralmakes.filamentlibrary.model.CollectorViewModel
-import com.pluralmakes.filamentlibrary.util.ConnectionStatus
+import android.os.Build
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
-import kotlinx.coroutines.launch
 
 class PermissionReceiver(
-    private val collectorViewModel: CollectorViewModel,
+    private val onReceive: (granted: Boolean) -> Unit,
 ): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == ACTION_USB_PERMISSION) {
-            val granted = intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false
-            if (granted) {
-                collectorViewModel.connect()
-            } else {
-                collectorViewModel.connectionStatus.value = ConnectionStatus.PERMISSION_DENIED
+            onReceive(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
+        }
+    }
+}
+
+@Composable
+fun CompPermissionReceiver(
+    context: Context,
+    onPermissionChange: (Boolean) -> Unit,
+    onDispose: () -> Unit,
+) {
+    val receiver = PermissionReceiver(onPermissionChange)
+    DisposableEffect(context) {
+        context.registerReceiver(
+            receiver,
+            IntentFilter(ACTION_USB_PERMISSION),
+            when (Build.VERSION.SDK_INT) {
+                in 0..33 -> 0
+                else -> 0x2
             }
+        )
+
+        onDispose {
+            onDispose()
+
+            context.unregisterReceiver(receiver)
         }
     }
 }

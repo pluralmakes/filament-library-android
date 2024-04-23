@@ -2,7 +2,7 @@ package com.pluralmakes.filamentlibrary.ui.dialogs
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.pluralmakes.filamentlibrary.model.CollectorViewModel
+import com.pluralmakes.filamentlibrary.model.viewModel.CollectorViewModel
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

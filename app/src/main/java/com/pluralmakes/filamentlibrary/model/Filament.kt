@@ -58,13 +58,15 @@ data class Filament(
     }
 }
 
-fun generateRandomFilaments(): List<Filament> {
+fun generateRandomFilaments(
+    count: Int = 5
+): List<Filament> {
     val filaments = mutableListOf<Filament>()
     val brands = listOf("Overture", "Polymaker", "Prusament")
     val types = filamentTypes
     val names = listOf("Name1", "Name2", "Name3")
 
-    for (i in 1..50) {
+    for (i in 1..count) {
         val brand = brands[Random.nextInt(brands.size)]
         val type = types[Random.nextInt(types.size)]
         val name = names[Random.nextInt(names.size)]

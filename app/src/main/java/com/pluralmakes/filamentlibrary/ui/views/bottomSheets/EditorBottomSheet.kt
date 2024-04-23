@@ -1,15 +1,14 @@
-package com.pluralmakes.filamentlibrary.ui
+package com.pluralmakes.filamentlibrary.ui.views.bottomSheets
 
-import android.content.res.Configuration
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.pluralmakes.filamentlibrary.model.Filament
+import com.pluralmakes.filamentlibrary.model.annotations.Previews
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
-import com.pluralmakes.filamentlibrary.ui.views.editors.FilamentEditor
+import com.pluralmakes.filamentlibrary.ui.views.editors.Editor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,16 +26,15 @@ fun EditorBottomSheet(
             onDismiss()
         },
     ) {
-        FilamentEditor(filament, onFilamentChange)
+        Editor(
+            filament,
+            onFilamentChange,
+            onDismiss
+        )
     }
 }
 
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    name = "Default Preview Dark",
-    apiLevel = 33
-)
+@Previews
 @Composable
 fun EditorBottomSheetPreview() {
     FilamentLibraryTheme {
