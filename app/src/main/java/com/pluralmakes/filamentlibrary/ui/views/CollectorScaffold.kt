@@ -29,9 +29,9 @@ import com.pluralmakes.filamentlibrary.model.Filament
 import com.pluralmakes.filamentlibrary.model.annotations.Previews
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.model.viewModel.CollectorViewModel
-import com.pluralmakes.filamentlibrary.ui.Collector
 import com.pluralmakes.filamentlibrary.ui.dialogs.CollectorDialogs
 import com.pluralmakes.filamentlibrary.ui.dialogs.GenericDialog
+import com.pluralmakes.filamentlibrary.ui.pages.collector.Collector
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.ui.views.bottomSheets.BulkEditorBottomSheet
 import com.pluralmakes.filamentlibrary.ui.views.bottomSheets.MergeBottomSheet

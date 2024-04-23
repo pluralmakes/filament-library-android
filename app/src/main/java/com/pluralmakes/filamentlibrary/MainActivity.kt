@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.model.viewModel.CollectorViewModel
-import com.pluralmakes.filamentlibrary.ui.Collector
+import com.pluralmakes.filamentlibrary.ui.pages.collector.Collector
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.StorageUtil
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorImpl

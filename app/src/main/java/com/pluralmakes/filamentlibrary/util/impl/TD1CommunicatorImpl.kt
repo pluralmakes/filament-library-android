@@ -75,7 +75,6 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
                 null
             }
 
-            Log.d("TD-1 Output", "startReading: $output")
             output
         }
         val write = { command: String ->
@@ -109,13 +108,11 @@ class TD1CommunicatorImpl(private val context: Context): TD1Communicator {
                                 )
                             )
                         }
-
-                        Log.d("TD-1 Output", "Received new filament")
                     }
                 }
             }
         } else {
-            print("Failed because $response")
+            Log.d("recompose", "Failed because $response")
         }
 
         Handler(Looper.getMainLooper()).post {
