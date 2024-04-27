@@ -43,7 +43,10 @@ fun EditorRow(
 
                 color?.let {
                     Box(
-                        Modifier.height(15.dp).padding(end = 5.dp).fillMaxWidth()
+                        Modifier
+                            .height(15.dp)
+                            .padding(end = 5.dp)
+                            .fillMaxWidth()
                             .background(Color(it))
                     )
                 }

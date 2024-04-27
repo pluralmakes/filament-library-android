@@ -3,6 +3,7 @@ package com.pluralmakes.filamentlibrary.util
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import com.pluralmakes.filamentlibrary.model.Filament
+import kotlinx.coroutines.CoroutineScope
 import java.io.IOException
 
 interface TD1Communicator {
@@ -15,7 +16,10 @@ interface TD1Communicator {
      * Start attempting to read filament data from the TD-1
      */
     @Throws(IOException::class)
-    suspend fun startReading(onFilamentReceive: (Filament) -> Unit)
+    suspend fun startReading(
+        onReadFilament: suspend CoroutineScope.(Filament) -> Unit,
+        onReadingComplete: () -> Unit,
+    )
 
     /**
      * Checks if your app has permission to access the USB device

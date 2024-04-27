@@ -91,7 +91,7 @@ fun ExpandableFloatingActionButton(
                     .size(24.dp)
                     .offset(
                         x = animateDpAsState(
-                            if (isExpanded) -70.dp else 0.dp,
+                            if (isExpanded) (-70).dp else 0.dp,
                             animationSpec = spring(dampingRatio = 3f),
                             label = ""
                         ).value

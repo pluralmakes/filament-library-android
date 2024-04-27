@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Filament Library</string>
+    <plurals name="bulk_edit_title">
+        <item quantity="one">Bulk editing 1 filament</item>
+        <item quantity="other">Bulk editing %1$d filaments</item>
+    </plurals>
+    <plurals name="bulk_delete_confirm">
+        <item quantity="one">Are you sure you want to delete 1 filament?</item>
+        <item quantity="other">Are you sure you want to delete %1$d filaments?</item>
+    </plurals>
 </resources>
