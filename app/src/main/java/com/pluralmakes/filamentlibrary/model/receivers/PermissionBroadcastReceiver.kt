@@ -12,11 +12,11 @@ import androidx.compose.ui.platform.LocalContext
 import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
 
 private class PermissionBroadcastReceiver(
-    private val onReceive: (granted: Boolean) -> Unit,
+    private val onReceive: ((granted: Boolean) -> Unit)? = null,
 ): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == ACTION_USB_PERMISSION) {
-            onReceive(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
+            onReceive?.invoke(intent.extras?.getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED) ?: false)
         }
     }
 }
