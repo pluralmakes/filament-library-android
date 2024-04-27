@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -28,12 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
+import com.pluralmakes.filamentlibrary.ui.views.input.TDField
 import com.pluralmakes.filamentlibrary.util.extensions.toHexCode
 
 @Composable
@@ -47,6 +46,7 @@ inline fun <reified T: Any> BulkEditorRow(
 ) {
     var value by remember { mutableStateOf(selectedValue) }
     val isColor = T::class == Color::class
+    val isNumber = T::class == Float::class
 
     Column {
         Row(
@@ -90,23 +90,20 @@ inline fun <reified T: Any> BulkEditorRow(
                                     .fillMaxWidth()
                                     .background(value as Color)
                             )
-                        } else {
-                            TextField(
+                        } else if (isNumber) {
+                            TDField(
+                                initialTD = value as Float,
+                                onTDChange = {
+                                    value = it as T
+                                    onValueChange(value)
+                                }
+                            )
+                        } else { TextField(
                                 value = "$value",
                                 onValueChange = {
                                     if (validateValue?.invoke(it) != false) {
-                                        value = when (T::class) {
-                                            String::class -> it as T
-                                            Float::class -> it.toFloatOrNull() as T
-                                            else -> throw IllegalArgumentException("Unsupported type")
-                                        }
-
                                         onValueChange(value)
                                     }
-                                },
-                                keyboardOptions = when (T::class) {
-                                    Float::class -> KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
-                                    else -> KeyboardOptions.Default
                                 }
                             )
                         }

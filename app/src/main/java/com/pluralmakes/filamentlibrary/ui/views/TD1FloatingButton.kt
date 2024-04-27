@@ -16,13 +16,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.pluralmakes.filamentlibrary.R
 import com.pluralmakes.filamentlibrary.util.ConnectionStatus
-import com.pluralmakes.filamentlibrary.util.ConnectionStatus.*
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus.CONNECTED
+import com.pluralmakes.filamentlibrary.util.ConnectionStatus.CONNECTING
 
 @Composable
 fun TD1FloatingButton(
     connectionStatus: MutableState<ConnectionStatus>,
     onConnectClick: (ConnectionStatus) -> Unit,
-    onExportClick: () -> Unit,
+    onShareClick: () -> Unit,
 ) {
     if (connectionStatus.value == CONNECTING) {
         FloatingActionButton(onClick = {}) {
@@ -43,7 +44,7 @@ fun TD1FloatingButton(
                     }
 
                     FABRow("Export Filaments") {
-                        onExportClick()
+                        onShareClick()
                     }
                 }
             }

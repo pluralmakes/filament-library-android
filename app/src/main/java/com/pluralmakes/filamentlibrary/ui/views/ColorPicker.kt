@@ -29,7 +29,7 @@ fun ColorPicker(
     showRGBInput: Boolean = false,
     onColorChange: (String) -> Unit
 ) {
-    val color = remember { mutableStateOf(Color(initialColor.toColorInt())) }
+    val color = remember(initialColor) { mutableStateOf(Color(initialColor.toColorInt())) }
     val hsvColor = HsvColor.from(color.value)
 
     Column(Modifier.fillMaxWidth()) {
@@ -51,49 +51,47 @@ fun ColorPicker(
                 RGBField("Red", color.value.red) {
                     color.value = color.value.copy(red = it / 255f)
                     onColorChange(color.value.toHexCode())
-                }()
+                }
 
                 RGBField("Green", color.value.green) {
                     color.value = color.value.copy(green = it / 255f)
                     onColorChange(color.value.toHexCode())
-                }()
+                }
 
                 RGBField("Blue", color.value.blue) {
                     color.value = color.value.copy(blue = it / 255f)
                     onColorChange(color.value.toHexCode())
-                }()
+                }
             }
         }
     }
 }
 
 @Composable
-fun RGBField(
+fun RowScope.RGBField(
     label: String,
     value: Float,
     onValueChange: (Int) -> Unit
-): @Composable RowScope.() -> Unit {
+) {
     // TODO: This isn't properly updating the ClassicColorPicker value
-    return {
-        TextField(
-            modifier = Modifier
-                .weight(0.3f)
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            label = {
-                Text(label)
-            },
-            value = "${(value * 255).toInt()}",
-            onValueChange = { it ->
-                it.takeIf { it.isNotEmpty() }
-                    ?.toIntOrNull()
-                    ?.takeIf { it in 0..255 }
-                    ?.let { rgb ->
-                        onValueChange(rgb)
-                    }
-            }
-        )
-    }
+    TextField(
+        modifier = Modifier
+            .weight(0.3f)
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp),
+        label = {
+            Text(label)
+        },
+        value = "${(value * 255).toInt()}",
+        onValueChange = { it ->
+            it.takeIf { it.isNotEmpty() }
+                ?.toIntOrNull()
+                ?.takeIf { it in 0..255 }
+                ?.let { rgb ->
+                    onValueChange(rgb)
+                }
+        }
+    )
 }
 
 @Previews

@@ -8,9 +8,10 @@ import android.hardware.usb.UsbManager
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalContext
 import com.pluralmakes.filamentlibrary.util.impl.ACTION_USB_PERMISSION
 
-class PermissionReceiver(
+private class PermissionBroadcastReceiver(
     private val onReceive: (granted: Boolean) -> Unit,
 ): BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -21,12 +22,13 @@ class PermissionReceiver(
 }
 
 @Composable
-fun CompPermissionReceiver(
-    context: Context,
+fun PermissionReceiver(
     onPermissionChange: (Boolean) -> Unit,
     onDispose: () -> Unit,
 ) {
-    val receiver = PermissionReceiver(onPermissionChange)
+    val receiver = PermissionBroadcastReceiver(onPermissionChange)
+    val context = LocalContext.current
+
     DisposableEffect(context) {
         context.registerReceiver(
             receiver,

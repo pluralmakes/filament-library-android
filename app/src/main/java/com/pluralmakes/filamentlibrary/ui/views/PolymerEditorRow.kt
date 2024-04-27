@@ -21,7 +21,7 @@ fun PolymerEditorRow(
     initialValue: String,
     onValueChange: (String) -> Unit
 ) {
-    var polymer by remember { mutableStateOf(initialValue) }
+    var polymer by remember(initialValue) { mutableStateOf(initialValue) }
 
     EditorRow {
         LazyRow {

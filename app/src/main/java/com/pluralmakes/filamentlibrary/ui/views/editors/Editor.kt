@@ -28,7 +28,7 @@ fun Editor(
     onFilamentChange: (Filament) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    var editingFilament by remember { mutableStateOf(filament) }
+    var editingFilament by remember(filament) { mutableStateOf(filament) }
 
     Column(Modifier.padding(start = 25.dp, end = 25.dp, bottom = 20.dp)) {
         TextEditorRow(title = "Brand", initialValue = filament.brand) {

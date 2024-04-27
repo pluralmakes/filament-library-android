@@ -6,7 +6,7 @@ import com.pluralmakes.filamentlibrary.ui.dialogs.BottomSheet
 import com.pluralmakes.filamentlibrary.ui.views.editors.MergeEditor
 
 @Composable
-fun MergeBottomSheet(
+fun LibraryMerge(
     selectedFilament: List<Filament>,
     onMergeFilament: (Filament) -> Unit,
     onDismiss: () -> Unit,
@@ -15,9 +15,7 @@ fun MergeBottomSheet(
         content = {
             MergeEditor(
                 selectedFilament = selectedFilament,
-                onMergeFilament = {
-
-                },
+                onMergeFilament = onMergeFilament,
                 onDismiss = onDismiss,
             )
         },

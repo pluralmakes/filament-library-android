@@ -3,6 +3,7 @@ package com.pluralmakes.filamentlibrary.util
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.graphics.Color
 import com.pluralmakes.filamentlibrary.model.Filament
+import kotlinx.coroutines.CoroutineScope
 import java.io.IOException
 
 interface TD1Communicator {
@@ -16,8 +17,8 @@ interface TD1Communicator {
      */
     @Throws(IOException::class)
     suspend fun startReading(
-        onReadingEnd: () -> Unit,
-        onFilamentReceived: (Filament) -> Unit
+        onReadFilament: suspend CoroutineScope.(Filament) -> Unit,
+        onReadingComplete: () -> Unit,
     )
 
     /**

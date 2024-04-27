@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
-import com.pluralmakes.filamentlibrary.model.generateRandomFilaments
 import com.pluralmakes.filamentlibrary.model.viewModel.CollectorViewModel
-import com.pluralmakes.filamentlibrary.ui.pages.collector.Collector
+import com.pluralmakes.filamentlibrary.ui.pages.library.Library
 import com.pluralmakes.filamentlibrary.ui.theme.FilamentLibraryTheme
 import com.pluralmakes.filamentlibrary.util.StorageUtil
 import com.pluralmakes.filamentlibrary.util.impl.TD1CommunicatorImpl
@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Collector(
+                    Library(
                         viewModel = CollectorViewModel(
                             communicator = TD1CommunicatorImpl(this),
-                            filaments = generateRandomFilaments(100).toMutableList()
+                            filaments = filaments.toMutableStateList()
                         )
                     )
                 }

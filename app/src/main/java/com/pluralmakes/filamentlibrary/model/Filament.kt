@@ -3,6 +3,7 @@ package com.pluralmakes.filamentlibrary.model
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import kotlin.random.Random
 
 val filamentTypes = arrayListOf(
@@ -34,7 +35,7 @@ val filamentTypes = arrayListOf(
     "POM+"
 )
 
-data class Filament(
+data class Filament (
     @SerializedName("Brand")
     var brand: String,
 
@@ -52,10 +53,26 @@ data class Filament(
 
     @SerializedName("Owned")
     val owned: Boolean = true,
-) {
+): Serializable {
     fun getComposeColor(): Color {
         return Color(color.toColorInt())
     }
+}
+
+/**
+ * Organizes the filament into a group of polymers, then brands and finally a list of filament
+ */
+fun organizeFilamentForDisplay(
+    filaments: MutableList<Filament>
+): List<Pair<String, List<Pair<String, List<List<Filament>>>>>> {
+    return filaments
+        .groupBy { it.type }
+        .mapValues { filament -> filament.value
+            .groupBy { it.brand }
+            .mapValues { it.value.chunked(3) }
+            .toList().sortedBy { it.first } }
+        .toList()
+        .sortedBy { it.first }
 }
 
 fun generateRandomFilaments(
